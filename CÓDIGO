@@ -1,0 +1,18 @@
+//@version=4
+study("Double 7's Strategy with Alerts", overlay=true)
+
+value1 = input(7, title="Quantity of day low")
+value2 = input(7, title="Quantity of day high")
+entry = lowest(close[1], value1)
+exit = highest(close[1], value2)
+
+mma200 = sma(close, 200)
+
+longCondition = (close > mma200) and (close < entry)
+exitCondition = close > exit
+
+plotshape(series=longCondition, title="Buy Signal", location=location.belowbar, color=color.green, style=shape.triangleup, size=size.small)
+plotshape(series=exitCondition, title="Sell Signal", location=location.abovebar, color=color.red, style=shape.triangledown, size=size.small)
+
+alertcondition(longCondition, title="Buy Signal", message="Buy Signal")
+alertcondition(exitCondition, title="Sell Signal", message="Sell Signal")
